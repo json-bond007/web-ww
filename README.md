@@ -1,3 +1,3 @@
-# Hugo based webiste
+# My personal Webspace :3
 
-Feeel free to repurpese the template
+Using the template booti368
