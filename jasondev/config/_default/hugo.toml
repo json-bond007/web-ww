@@ -1,0 +1,11 @@
+baseURL = 'jasondev.cc'
+locale = 'en-us'
+title = 'Jasondev gay lair'
+[params]
+subtitle = 'I use arch btw'
+[params.contact]
+email = 'jason_bot@proton.me'
+[module]
+[[module.imports]]
+path = "github.com/jmfergeau/hugo.386"
+
