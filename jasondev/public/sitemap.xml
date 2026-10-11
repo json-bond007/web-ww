@@ -4,8 +4,6 @@
   <url>
     <loc>//localhost:46289/categories/</loc>
   </url><url>
-    <loc>//localhost:46289/</loc>
-  </url><url>
     <loc>//localhost:46289/tags/</loc>
   </url>
 </urlset>
