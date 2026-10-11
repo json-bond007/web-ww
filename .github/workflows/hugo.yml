@@ -7,7 +7,7 @@ env:
   NODE_VERSION: 24.21.0
 
   # Set the build time zone
-  TZ: Europe/Oslo
+  TZ: Europe/Madrid
 on:
   push:
     branches:
@@ -48,6 +48,11 @@ jobs:
         with:
           go-version-file: jasondev/go.mod
           cache: false
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
 
       - name: Build
         working-directory: jasondev
