@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>Categories on Jasondev gay lair</title>
-		<link>//localhost:34267/categories/</link>
-		<description>Recent content in Categories on Jasondev gay lair</description>
+		<title>Categories on HUGO.386</title>
+		<link>//localhost:44349/categories/</link>
+		<description>Recent content in Categories on HUGO.386</description>
 		<generator>Hugo</generator>
-		<language>en-us</language>
+		<language>en_us,es_ES</language>
 		
 		
 		
 		
-			<atom:link href="//localhost:34267/categories/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="//localhost:44349/categories/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>
