@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>_Index on HUGO.386</title>
-		<link>//localhost:44349/</link>
+		<link>//localhost:39823/</link>
 		<description>Recent content in _Index on HUGO.386</description>
 		<generator>Hugo</generator>
 		<language>en_us,es_ES</language>
@@ -12,6 +12,6 @@
 		
 			<lastBuildDate></lastBuildDate>
 		
-			<atom:link href="//localhost:44349/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="//localhost:39823/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>
