@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>Jasondev gay lair</title>
-		<link>//localhost:46289/</link>
-		<description>Recent content on Jasondev gay lair</description>
+		<title>_Index on Jasondev gay lair</title>
+		<link>//localhost:34267/</link>
+		<description>Recent content in _Index on Jasondev gay lair</description>
 		<generator>Hugo</generator>
 		<language>en-us</language>
 		
 		
 		
 		
-			<atom:link href="//localhost:46289/index.xml" rel="self" type="application/rss+xml" />
+			<lastBuildDate></lastBuildDate>
+		
+			<atom:link href="//localhost:34267/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>

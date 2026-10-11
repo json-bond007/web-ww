@@ -1,6 +1,6 @@
 +++
 date = '2026-10-11T21:16:40+02:00'
-draft = False
+draft = false
 title = '_Index'
 +++
 
