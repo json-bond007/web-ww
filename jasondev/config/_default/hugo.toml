@@ -8,4 +8,6 @@ email = 'jason_bot@proton.me'
 [module]
 [[module.imports]]
 path = "github.com/jmfergeau/hugo.386"
-
+[caches]
+[caches.images]
+dir = ':cacheDir/images'
