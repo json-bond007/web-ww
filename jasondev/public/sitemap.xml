@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:39823/</loc>
+    <loc>jasondev.cc/</loc>
     <lastmod>2026-10-11T21:16:40+02:00</lastmod>
   </url><url>
-    <loc>//localhost:39823/categories/</loc>
+    <loc>jasondev.cc/categories/</loc>
   </url><url>
-    <loc>//localhost:39823/tags/</loc>
+    <loc>jasondev.cc/tags/</loc>
   </url>
 </urlset>
