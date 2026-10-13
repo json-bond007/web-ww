@@ -1,7 +1,7 @@
 baseURL = "jasondev.cc"
 title = "HUGO.386"
 locale = "en_us,es_ES"
-DefaultContentLanguage = "en" # Change this to change the site's language
+DefaultContentLanguage = "en,es_ES" # Change this to change the site's language
 preserveTaxonomyNames = true
 [module]
 [[module.imports]]
@@ -12,26 +12,24 @@ path = "github.com/jmfergeau/hugo.386"
 mainpagetitle = "HUGO.386"
 
 # The subtitle to display under the title in the home page
-mainpagesubtitle = "Welcome to the early 90s!"
+mainpagesubtitle = "Let's bring back the old 90's Cyberspace"
 
 # The description of your website. It will be displayed in the home page
-mainpagedesc = "This theme is the Hugo port of the BOOTSTRA.386 theme for a cool retro look on your blog. Check the links below to access the posts."
+mainpagedesc = "My second brain"
 
 # The name to display in the copyright section in the footer
 copyrightname = "Jason"
 
 # The url to use as link in the copyright name in the footer. Leave empty to use none.
-copyrighturl = "http://jmf-portfolio.netlify.com"
+copyrighturl = "jasondev.cc/copyright"
 
 # Show the "built on Hugo" disclaimer
 showhugo = true
 
 # Urls for social networks
-facebook = "https://facebook.com"
-twitter = "https://twitter.com"
-linkedin = "https://linkedin.com"
-github = "https://github.com"
-gitlab = "https://gitlab.com"
+linkedin = "https://linkedin.com/Jason"
+github = "https://github.com/json-bond007"
+gitlab = "https://gitlab.com/VimEnjoyer64"
 
 # Enables or disables the loading animations. false activates them. Default is false.
 loadfastload = false
@@ -43,16 +41,16 @@ loadspeedfactor = 1.0
 loadonepass = false
 
 [params.copyright]
-name = "JM Fergeau"
+name = "Jason"
 
 # The url to use as link in the copyright name in the footer. Leave empty to use none.
-url = "http://jmf-portfolio.netlify.com"
+url = "jasondev.cc/copyright"
 
 # Text to go before copyright information
 prefix = "[hugo.386 theme by Max le Fou](https://gitlab.com/maxlefou/hugo.386)"
 
 # Text to go between copyright and hugo disclaimer (if enabled)
-suffix = "Example site"
+suffix = "My public second brain"
 
 [menu]
 # This displays buttons in the navbar to access your contents
