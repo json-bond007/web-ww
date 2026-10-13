@@ -1,7 +1,7 @@
 baseURL = "jasondev.cc"
 title = "HUGO.386"
-locale = "en_us,es_ES"
-DefaultContentLanguage = "en,es_ES" # Change this to change the site's language
+locale = "en_us,es"
+DefaultContentLanguage = "en,es" # Change this to change the site's language
 preserveTaxonomyNames = true
 [module]
 [[module.imports]]
