@@ -29,13 +29,13 @@ showhugo = true
 # Urls for social networks
 linkedin = "https://linkedin.com/Jason"
 github = "https://github.com/json-bond007"
-gitlab = "https://gitlab.com/VimEnjoyer64"
+gitlab = "https://gitlab.com/VimEnjoyer"
 
 # Enables or disables the loading animations. false activates them. Default is false.
 loadfastload = false
 
 # Sets the speed for the page loading effect. Default is 1.0.
-loadspeedfactor = 1.0
+loadspeedfactor = 0.7
 
 # Enables or disables the second flyby cursor. Default is false.
 loadonepass = false
