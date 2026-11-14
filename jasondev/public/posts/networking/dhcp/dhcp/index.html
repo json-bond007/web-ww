@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en,es"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>HUGO.386</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#000084" />
+    <link rel="icon" href="//localhost:1313//favicon.ico">
+    <link rel="canonical" href="//localhost:1313/">
+    
+    
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
+            <a class="brand" href="//localhost:1313/">HUGO.386</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    
+                    
+                        
+                            <li>
+                                <a href="/about/">
+                                    
+                                    <span>About</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/post/">
+                                    
+                                    <span>All posts</span>
+                                </a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="content" class="container">
+
+<div class="row-fluid navmargin">
+  <div class="page-header">
+    <h1> - Mon, Jan 1, 0001</h1>
+  </div>
+  <p class="lead"></p>
+  <h1 id="dhcp">DHCP</h1>
+<p>Es el protocolo de la capa de aplicación diseñado para implementar un servidor de
+configuración automática de redes TCP/IP.</p>
+<p>Permite a los nodos de una red obtener sus parámetros de configuración de manera
+totalmente automática sin intervención manual.</p>
+<h2 id="funcionamiento">Funcionamiento</h2>
+<ul>
+<li>Asignación dinámica: Un servidor posee rangos de IP dinámica y las
+asigna progresivamente a los clientes</li>
+<li>Registro MAC-IP: Asocia en todo momento la IP asignada con la dirección <strong>MAC</strong>.</li>
+</ul>
+<h3 id="proceso-petición-dhcp">Proceso petición DHCP</h3>
+<ol>
+<li>Cuando un cliente DHCP se conecta a la red envía una solicitud en forma de broadcast
+a través de la red</li>
+<li>Todos los servidores alcanzados por la solicitud responden al cliente con sus
+respectivas propuestas</li>
+<li>El cliente acepta una de ellas haciéndoselo saber al servidor elegido</li>
+<li>El servidor le otorga la información requerida y un <em>lease time</em>.</li>
+<li>Esta información se mantiene asociada mientras el cliente no desactive su
+interfaz de red o no expire el <em>lease time</em>.</li>
+<li>Renovaciones:</li>
+</ol>
+<ul>
+<li>Cada vez que el cliente arranca, cada cierto tiempo o antes de la expiración
+del <em>lease time</em>.</li>
+<li>Cuando se acaba el <em>lease time</em>.
+<ul>
+<li>Renovar la información del cliente.</li>
+<li>Asignar otra nueva.</li>
+<li>Extender el plazo.</li>
+</ul>
+</li>
+</ul>
+<h2 id="ventajas">Ventajas</h2>
+<ul>
+<li>Conexión de hosts a la red sin intervención del administrador</li>
+<li>Disminución de errores en la configuración de red de los hosts.</li>
+<li>Permite reestructurar la red y añadir/modificar servicios sin tener que
+acceder a los equipos.</li>
+</ul>
+<h2 id="zeroconf-networking-mdns">ZeroConf networking (mDNS)</h2>
+<p>Conjunto de técnicas que permiten configurar de forma automática una red IP sin
+configuración manual.</p>
+<ul>
+<li>
+<p>Avahi: Linux</p>
+<ul>
+<li>Permite conectar un host y directamente empezar a <em>hablar</em> con otros hosts
+en la red, como <strong>impresoras u otros hosts</strong>. A diferencia de Bonjour puede
+perder servicios cuando se manejan redes de cierto tamaño. Resulta la
+implementación más completa del protocolo para asignar IPs y descubrir <em>hosts</em> y
+asignarles un dominio .local a una IP y que otros hosts descubran las
+impresoras sin tener que saber su IP.</li>
+</ul>
+</li>
+<li>
+<p>Bonjour: MacOS</p>
+</li>
+<li>
+<p>APIPA: Windows</p>
+<ul>
+<li>Le <strong>asigna una IP</strong> del rango link-local <strong>169.254.0.0/16</strong> (169.254.1.0 - 169.254.254.255),
+pero no
+configura el resto de parámetros. Verifica además que la IP no esté en uso</li>
+</ul>
+</li>
+</ul>
+<h2 id="arquitectura-de-la-asignación-de-ips">Arquitectura de la Asignación de IPs</h2>
+<p>En una red local se asignan IPs fijas a hosts que proveen servicios tipo <strong>DHCP</strong> o
+<strong>DNS</strong>, reservándolas del <em>pool dhcp</em> y IPs dinámicas para el resto de hosts.</p>
+<h3 id="componentes">Componentes</h3>
+<ul>
+<li><strong>Cliente DHCP</strong>: el host que solicita su configuración de red (IP, máscara,
+gateway, DNS y <em>lease time</em>).</li>
+<li><strong>Servidor DHCP</strong>: el host que mantiene el rango de IPs y los parámetros de
+configuración, y los concede a los clientes.</li>
+<li>Las IPs se conceden de forma dinámica y por tiempo limitado: el cliente solo
+puede usar la IP durante el <em>lease time</em> que fija el servidor.</li>
+</ul>
+<h3 id="asignación-de-la-ip">Asignación de la IP</h3>
+<p>El servidor escucha en el puerto UDP 67 y el cliente en el 68. Como el cliente
+todavía no tiene IP, los primeros mensajes se envían por <em>broadcast</em>.</p>
+<ol>
+<li><strong>DHCPDISCOVER</strong>: el cliente difunde la petición (IP origen 0.0.0.0, IP
+destino 255.255.255.255, MAC destino FF:FF:FF:FF:FF:FF, puerto 68 ➜ 67).
+Incluye el tipo de mensaje (opción 53), su identificador de cliente
+(opción 61) y la lista de parámetros que solicita (opción 55).</li>
+<li><strong>DHCPOFFER</strong>: el servidor responde (puerto 67 ➜ 68) con la IP que ofrece
+(<code>yiaddr</code>), la máscara (opción 1), el gateway (opción 3), los DNS
+(opción 6), el <em>lease time</em> (opción 51) y su identificador de servidor
+(opción 54).</li>
+<li><strong>DHCPREQUEST</strong>: el cliente acepta una oferta con otro <em>broadcast</em>
+(0.0.0.0 ➜ 255.255.255.255, puerto 68 ➜ 67), indicando la IP que pide
+(opción 50) y el servidor elegido (opción 54). Al ser un <em>broadcast</em>, los
+servidores no elegidos también lo reciben y descartan sus ofertas.</li>
+<li><strong>DHCPACK</strong>: el servidor confirma la concesión (opción 53 = 5) con la misma
+configuración de la oferta. El cliente configura su interfaz con esos
+datos y empieza a contar el <em>lease time</em>.</li>
+</ol>
+<p>Si el servidor no puede conceder la IP pedida responde con un <strong>DHCPNAK</strong>
+(opción 53 = 6) y el cliente vuelve a empezar por el <strong>DHCPDISCOVER</strong>.</p>
+<h3 id="renovación-de-la-concesión">Renovación de la concesión</h3>
+<ul>
+<li>Al llegar a la mitad del <em>lease time</em> (T1), el cliente envía un
+<strong>DHCPREQUEST</strong> por <em>unicast</em> al servidor que le concedió la IP (IP origen
+la del cliente y <code>ciaddr</code> con su IP). No repite el <strong>DHCPDISCOVER</strong> ni
+incluye las opciones 50 y 54.</li>
+<li>El servidor responde con un <strong>DHCPACK</strong> por <em>unicast</em> y la concesión se
+extiende: el <em>lease time</em> vuelve a empezar.</li>
+<li>Si el servidor no responde, al 87,5 % del <em>lease time</em> (T2) el cliente
+difunde el <strong>DHCPREQUEST</strong> por <em>broadcast</em> para que lo conteste cualquier
+servidor (<em>rebind</em>).</li>
+</ul>
+<h3 id="liberación-de-la-concesión">Liberación de la concesión</h3>
+<ul>
+<li>Cuando el cliente ya no necesita la IP (por ejemplo, al apagarse de forma
+ordenada o con <code>ipconfig /release</code> o <code>dhclient -r</code>), envía un <strong>DHCPRELEASE</strong>
+por <em>unicast</em> al servidor (opción 53 = 7, con su IP en <code>ciaddr</code> y la opción
+54).</li>
+<li>El servidor no responde: marca la IP como libre y puede concederla a otro
+cliente.</li>
+<li>Si el cliente no envía el <strong>DHCPRELEASE</strong> (por ejemplo, si se apaga de golpe),
+el servidor recupera la IP cuando expira el <em>lease time</em>.</li>
+</ul>
+<h3 id="varios-servidores-ha">Varios Servidores (HA)</h3>
+<p>En una misma red pueden coexistir varios servidores <strong>DHCP</strong>.</p>
+<p>Los servidores <strong>DHCP</strong> no se comunican entre ellos para saber qué direcciones
+IP deben asignar cada uno. Es responsabilidad del sysadmin evitar conflictos
+en la asignación de IPs.</p>
+<h4 id="dhcp-failover-protocol">DHCP Failover protocol</h4>
+<p>Si tenemos 2 o más servidores <strong>DHCP</strong> en la misma red tenemos 2 opciones:</p>
+<ul>
+<li>Asignar diferentes rangos IP a cada servidor</li>
+<li>Utilizar el mismo rango de direcciones ➜ <strong>DHCP Failover protocol</strong></li>
+<li>Podemos tener varias opciones de configuración:</li>
+</ul>
+<h2 id="configuración">Configuración</h2>
+<p>Los principales parámetros con <strong>DHCP</strong> son:</p>
+<ul>
+<li>
+<p>IP y máscara de red</p>
+</li>
+<li>
+<p>Tiempo de concesión, <em>lease time</em>.</p>
+</li>
+<li>
+<p>Servidores DNS y dominio.</p>
+</li>
+<li>
+<p><strong>GW</strong> (gateway)</p>
+</li>
+</ul>
+<h3 id="lease-time">Lease time</h3>
+<p>Es el tiempo que un cliente <strong>DHCP</strong> mantiene como propios los datos de
+configuración que le otorga un servidor.</p>
+<p>El cliente debe solicitar la renovación:</p>
+<ul>
+<li>
+<p>Cuando el cliente arranca</p>
+</li>
+<li>
+<p>Cada cierto tiempo</p>
+</li>
+<li>
+<p>Cuando alcanza la mitad del <em>lease time</em> (T1) y de nuevo al 87,5 % (T2).</p>
+<ul>
+<li>Renueva la información del cliente extendiendo el <em>lease time</em></li>
+<li>Asigna una nueva información junto con su <em>lease time</em>.</li>
+</ul>
+</li>
+</ul>
+<p>El tiempo de concesión facilita la tarea de reestructuración.
+El tiempo depende de las características de la red.
+Redes con rango alto de direcciones IP y configuración de los clientes rara vez
+cambia ➜ Incrementar <em>lease time</em>, para reducir tráfico de red.</p>
+<p>Redes con rango muy limitado de direcciones IP y configuración de los clientes
+cambia frecuentemente ➜ reducir el <em>lease time</em> para que las direcciones IPs que
+no están siendo usadas estén disponibles para nuevas asignaciones.</p>
+<h3 id="debianlinux-isc-dhcp-server">Debian/Linux (isc-dhcp-server)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Comandos configuración</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Mostrar la ip del host</span>
+</span></span><span style="display:flex;"><span>ip a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Editamos /etc/network/interfaces</span>
+</span></span><span style="display:flex;"><span>sudoedit /etc/network/interfaces
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Cambiamos el hostname (server1, c1,c2)</span>
+</span></span><span style="display:flex;"><span>sudoedit /etc/hostname
+</span></span><span style="display:flex;"><span>sudo hostnamectl set-hostname &lt;nombre-hostname&gt;
+</span></span><span style="display:flex;"><span>hostnamectl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Reiniciamos networking.service</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl stop networking.service
+</span></span><span style="display:flex;"><span>sudo systemctl start networking.service
+</span></span></code></pre></div><p>Ejemplo de sentencias a usar en el fichero /etc/network/interfaces</p>
+<pre tabindex="0"><code class="language-dsconfig" data-lang="dsconfig">
+allow-hotplug &lt;dev-name&gt;
+
+iface &lt;dev-name&gt; inet &lt;[manual][dhcp][static]&gt;
+  [address &lt;ip-address&gt;/&lt;netmask-cidr&gt;]
+  [netmask &lt;netmask&gt;]
+  [gateway &lt;gateway-ip-address&gt;]
+  [dns-nameservers &lt;ip-address&gt;]
+  [dns-search &lt;domain-name&gt;]
+  [hostname &lt;hostname-to-be-requested&gt;]
+</code></pre><h4 id="configuración-del-servicio">Configuración del servicio</h4>
+<p>Instalamos con <code>sudo apt update&amp;&amp;sudo apt install isc-dhcp-server</code>.
+Editamos el fichero <code>sudoedit /etc/default/isc-dhcp-server</code>.</p>
+<pre tabindex="0"><code class="language-dsconfig" data-lang="dsconfig">INTERFACESv4=&#34;&lt;nombre-interfaz&gt;&#34;
+</code></pre><p>Editamos el fichero <code>sudoedit /etc/dhcp/dhcpd.conf</code></p>
+<pre tabindex="0"><code class="language-dsconfig" data-lang="dsconfig">  subnet [&lt;network-address&gt;] netmask [&lt;netmask&gt;] {
+  range [&lt;ip-address-range&gt;];
+  option routers [&lt;gateway-ip-address&gt;];
+  option domain-name &#34;&lt;local-domain-assigned-to-clients&gt;&#34;;
+  option domain-name-servers [&lt;dns-ip-address&gt;];
+  default-lease-time [&lt;lease-time-in-seconds&gt;];
+  max-lease-time [&lt;lease-time-in-seconds&gt;];
+}
+
+# Reserve static IP
+host &lt;hostname&gt;{
+  hardware ethernet [&lt;MAC&gt;];
+  fixed-address [&lt;ip-address&gt;];
+}
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dhcpd -t -cf /etc/dhcp/dhcpd.conf
+</span></span><span style="display:flex;"><span>sudo systemctl stop isc-dhcp-server
+</span></span><span style="display:flex;"><span>sudo systemctl start isc-dhcp-server
+</span></span><span style="display:flex;"><span>sudo systemctl status isc-dhcp-server
+</span></span></code></pre></div><p>Comprobamos los logs del servidor para verificar el correcto funcionamiento o
+detectar errores en el servicio, se pueden revisar los registros del sistema
+mediante los siguientes comandos:
+Ver los registros del servicio en tiempo real usando journalctl:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo journalctl -xeu isc-dhcp-server -f
+</span></span></code></pre></div><p>O con el fichero de registros del sistema</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;dhcpd&#34;</span> /var/log/syslog
+</span></span></code></pre></div><h5 id="fichero-de-concesiones">Fichero de concesiones</h5>
+<p>El fichero <strong>dhcpd.leases</strong> es utilizado por el servidor <strong>DHCP</strong> para mantener
+un registro persistente de todas las concesiones activas e históricas asignadas
+a los clientes. En este fichero se almacenan la siguiente información:</p>
+<ul>
+<li><strong>Direcciones IPs asignadas</strong>: dirección de red otorgada a los clientes.</li>
+<li><strong>Direcciones MAC</strong>: dirección física de los clientes</li>
+<li><strong>Lease time</strong>: Tiempo de concesión.</li>
+</ul>
+<h4 id="configuración-de-los-clientes-debian">Configuración de los clientes debian</h4>
+<p>Para configurar una interfaz de red en Debian/Linux, para que solicite automáticamente
+una dirección IP a través de <strong>DHCP</strong>, se debe editar el archivo de configuración
+de red del sistema</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudoedit /etc/network/interfaces
+</span></span></code></pre></div><p>Editamos el fichero con estas sentencias:</p>
+<pre tabindex="0"><code class="language-dsconfig" data-lang="dsconfig">auto &lt;device-name&gt;
+iface &lt;device-name&gt; inet dhcp
+</code></pre><p>Reiniciamos el servicio de red:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl stop networking
+</span></span><span style="display:flex;"><span>sudo systemctl start networking
+</span></span></code></pre></div><h5 id="gestión-de-la-concesión-cliente-dhcp">Gestión de la concesión cliente DHCP</h5>
+<p>En los clientes Debian/Linux, se utiliza <strong>dhclient</strong> para administrar la obtención
+y liberación de direcciones IPs asignadas por el servidor <strong>DHCP</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Solicitar o renovar</span>
+</span></span><span style="display:flex;"><span>sudo dhclient <span style="color:#e6db74">&#34;&lt;device-name&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Liberar y descartar la concesión</span>
+</span></span><span style="display:flex;"><span>sudo dhclient -r <span style="color:#e6db74">&#34;&lt;device-name&gt;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Consultar el estado</span>
+</span></span><span style="display:flex;"><span>ip addr show  <span style="color:#e6db74">&#34;&lt;device-name&gt;&#34;</span>
+</span></span></code></pre></div><p>El fichero dhclient.leases almacena el registro de las concesiones obtenidas por
+el cliente. En él se pueden consultar detalladamente los siguientes parámetros:</p>
+<ul>
+<li>fixed-address: La dirección IP asignada al cliente por el servidor <strong>DHCP</strong>.</li>
+<li>dhcp-server-identifier: La dirección IP del servidor <strong>DHCP</strong>.</li>
+<li>renew, rebind, expire y obtai: los tiempos y fechas exactas de inicio y fin de
+la concesión, marcando cuándo <em>lease time</em>, cuándo se intentará renovar y la
+fecha de expiración definitiva.</li>
+<li>option routers: La dirección IP del gateway predeterminada asignada.</li>
+<li>option domain-name-servers: La lista de servidores <strong>DNS</strong> proporcionados</li>
+<li>option subnet-mask y domain-name: La máscara de subred y el nombre de dominio
+asignados al equipo.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&#34;/var/lib/dhcp/dhclient.&lt;device-name&gt;.leases&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/resolv.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dhcpd -U &lt;device-name&gt;
+</span></span></code></pre></div><h2 id="proceso-dhcp-entre-cliente-y-servidor">Proceso DHCP entre cliente y servidor</h2>
+<p>El servidor permanece a la escucha en el puerto 67 UDP.</p>
+<ul>
+<li>
+<p>Descubrimiento <strong>DHCP</strong> por el puerto 67.</p>
+<ul>
+<li>El cliente difunde por broadcast un paquete <strong>DHCPDISCOVER</strong></li>
+</ul>
+</li>
+<li>
+<p>Oferta <strong>DHCP</strong> por el puerto 68.</p>
+</li>
+<li>
+<p>Solicitud <strong>DHCP</strong> por el puerto 67 UDP.</p>
+</li>
+<li>
+<p>ACK <strong>DHCP</strong>.</p>
+</li>
+</ul>
+<h2 id="seguridad">Seguridad</h2>
+<p>No incluye ningún mecanismo de autenticación. Posibles ataques:</p>
+<ul>
+<li><strong>DHCP spoofing</strong>: Suplantación del servidor <strong>DHCP</strong>. Servidores no
+autorizados suplantan al servidor <strong>DHCP</strong> y proporcionan configuraciones
+falsas.</li>
+<li><strong>DoS</strong>: Denegación de servicio. Cliente no autorizado agota las direcciones IP.
+Solicita una dirección, cambia su <strong>MAC</strong> y vuelve a solicitar otra</li>
+<li><strong><em>Man-in-the-middle</em></strong>: El servidor no autorizado envía una dirección válida
+pero le da su dirección IP como puerta de enlace. Recibe paquetes que luego
+reenvía al router para que el cliente no se dé cuenta del ataque.</li>
+<li><strong>Configuración manual</strong>: Clientes no autorizados podrían acceder a los
+recursos configurando manualmente la <strong>NIC</strong>.</li>
+</ul>
+<p>Soluciones:</p>
+<ul>
+<li>
+<p><strong>DHCP snooping</strong>: En el switch se declara de confianza el puerto por el que
+genera respuestas el servidor <strong>DHCP</strong> autorizado, siendo todos los demás
+puertos no fiables. Resuelve el problema del <strong><em>Man-in-the-middle</em></strong> y spoofing</p>
+</li>
+<li>
+<p>Logs del servidor <strong>DHCP</strong>: Auditar posibles peticiones no autorizadas.</p>
+</li>
+</ul>
+
+  <h4><a href="//localhost:1313/">Back to Home</a></h4>
+</div>
+
+</div><footer class="container">
+    <hr class="soften">
+    <p> <a href="https://gitlab.com/maxlefou/hugo.386">hugo.386 theme by Max le Fou</a> |  &copy; <a href="jasondev.cc/copyright" target="_blank"
+  > Jason </a
+>
+<span id="thisyear">2026</span>
+ | My public second brain   | Built on
+<a href="//gohugo.io" target="_blank">Hugo</a>
+
+</p>
+    <p class="text-center">
+        
+        
+        <a href="https://www.linkedin.com/in/jasondevcc/">Linkedin</a> 
+        <a href="https://github.com/json-bond007">GitHub</a> 
+        <a href="https://gitlab.com/VimEnjoyer">GitLab</a>
+    </p>
+</footer>
+
+</body><link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/css/style.css">
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap-386.js"></script>
+<script src="/js/bootstrap-transition.js"></script>
+<script src="/js/bootstrap-alert.js"></script>
+<script src="/js/bootstrap-modal.js"></script>
+<script src="/js/bootstrap-dropdown.js"></script>
+<script src="/js/bootstrap-scrollspy.js"></script>
+<script src="/js/bootstrap-tab.js"></script>
+<script src="/js/bootstrap-tooltip.js"></script>
+<script src="/js/bootstrap-popover.js"></script>
+<script src="/js/bootstrap-button.js"></script>
+<script src="/js/bootstrap-collapse.js"></script>
+<script src="/js/bootstrap-carousel.js"></script>
+<script src="/js/bootstrap-typeahead.js"></script>
+<script src="/js/bootstrap-affix.js"></script>
+<script>
+    _386 = { 
+        fastLoad: false ,
+        onePass: false , 
+        speedFactor: 0.7 
+    };
+
+    
+    function ThisYear() {
+        document.getElementById('thisyear').innerHTML = new Date().getFullYear();
+    };
+</script>
+</html>

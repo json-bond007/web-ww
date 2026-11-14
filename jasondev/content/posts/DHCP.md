@@ -1,3 +1,10 @@
++++
+date = '2026-11-14T13:11:11+01:00'
+draft = false
+title = 'DHCP'
+lang=es,en,ita
++++
+
 # DHCP
 
 Es el protocolo de la capa de aplicación diseñado para implementar un servidor de
